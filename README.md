@@ -8,7 +8,9 @@ Récupérer le projet https://gitlab.com/react-avance/react-pokemons-app
 
 Installer les dépendances avec `npm install` ou `yarn install`
 
-Lancer le serveur de dev avec `npm run dev` ou `yarn dev`
+Lancer le serveur de dev avec `npm run start` ou `yarn start`
+
+Lancer l'API REST avec `npm run start:api` ou `yarn start:api`
 
 # Exercice 1 : Rappels
 
@@ -61,7 +63,7 @@ function List({ items, renderItem }: Props): ReactNode {
 export default List;
 ```
 
-Compléter le type Props pour matcher items (type string ou generic) et renderItem (param de type string ou generic, qui retourne ReactNode)
+Compléter le type Props pour matcher items (type any ou generic) et renderItem (param de type any ou generic, qui retourne ReactNode)
 
 Dans ce composant List nous allons boucler sur les items et afficher dans le JSX le retour de la fonction `renderItem`, ce JSX sera encapsulé dans un Fragment.
 
