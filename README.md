@@ -87,3 +87,10 @@ Dans `src/app/components/pokemon-card.tsx` écouter le change de la checkboxpour
 ## Exercice 4 : Custom Hooks
 
 Créer un custom hook `useSelectedPokemons()` qui retourne les pokemons sélectionnés dans le context et l'utiliser dans `PokemonCompare`.
+
+## Exercice 5 : Optimisation
+
+Télécharger, installer les dépendances puis lancer le projet :
+http://gitlab.com/react-avance/exercices-optimisation
+
+NE PAS FAIRE EXERCICES 1 ET 3
