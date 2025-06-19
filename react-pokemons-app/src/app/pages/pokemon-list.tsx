@@ -7,6 +7,7 @@ import PokemonSearch from '../components/pokemon-search';
 import { isAuthenticated } from '../services/authentication-service';
 import List from '../components/list';
 import { useCompare } from '../helpers/compare-context';
+// import { utils, writeFile } from 'xlsx';
 
 function PokemonList() {
   const { selectedPokemonIds } = useCompare();
@@ -26,9 +27,12 @@ function PokemonList() {
       <div className="container">
         <div className="row">
           <PokemonSearch />
-          <List items={pokemons} renderItem={(pokemon) => (
-            <PokemonCard key={pokemon.id} pokemon={pokemon} />
-          )} />
+          <List
+            items={pokemons}
+            renderItem={(pokemon) => (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            )}
+          />
           {/* {pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} />
           ))} */}
@@ -41,13 +45,29 @@ function PokemonList() {
       >
         <i className="material-icons">add</i>
       </Link>
-      {selectedPokemonIds.length === 2 && <Link
-        className="btn-floating btn-large waves-effect waves-light blue z-depth-3"
+      {selectedPokemonIds.length === 2 && (
+        <Link
+          className="btn-floating btn-large waves-effect waves-light blue z-depth-3"
+          style={{ position: 'fixed', bottom: '25px', right: '175px' }}
+          to="/pokemons/compare"
+        >
+          <i className="material-icons">compare</i>
+        </Link>
+      )}
+      <button
+        className="btn-floating btn-large waves-effect waves-light green z-depth-3"
         style={{ position: 'fixed', bottom: '25px', right: '100px' }}
-        to="/pokemons/compare"
+        onClick={() => {
+          import('xlsx').then(({ utils, writeFile }) => {
+            const worksheet = utils.json_to_sheet(pokemons);
+            const workbook = utils.book_new();
+            utils.book_append_sheet(workbook, worksheet, 'Pokémons');
+            writeFile(workbook, 'pokemons.xlsx');
+          });
+        }}
       >
-        <i className="material-icons">compare</i>
-      </Link>}
+        <i className="material-icons">download</i>
+      </button>
     </div>
   );
 }
