@@ -18,7 +18,7 @@ export async function getPokemon(id: number): Promise<Pokemon | undefined> {
   if (import.meta.env.DEV) {
     const response = await fetch(`http://localhost:3001/pokemons/${id}`);
     const data = await response.json();
-    return isEmpty(data) ? null : data;
+    return isEmpty(data) ? undefined : data;
   }
 
   return POKEMONS.find((p) => p.id === id);

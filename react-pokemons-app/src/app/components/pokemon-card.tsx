@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Pokemon } from '../models/pokemon';
 import './pokemon-card.css';
 import { formatDate, formatType } from '../helpers';
+import { useCompare } from '../helpers/compare-context';
 
 type Props = {
   pokemon: Pokemon;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 function PokemonCard({ pokemon }: Props) {
+  const { selectedPokemonIds, togglePokemonId } = useCompare();
   const navigate = useNavigate();
 
   function goToPokemon(id: number) {
@@ -36,7 +38,7 @@ function PokemonCard({ pokemon }: Props) {
               Details
             </button>
             <label>
-              <input type="checkbox" className="filled-in" defaultChecked={[1, 2].includes(pokemon.id!)} />
+              <input type="checkbox" className="filled-in" checked={selectedPokemonIds.includes(pokemon.id!)} onChange={() => togglePokemonId(pokemon.id ?? 0)} />
               <span>Compare</span>
             </label>
           </div>

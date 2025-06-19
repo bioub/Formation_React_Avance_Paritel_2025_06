@@ -3,27 +3,47 @@ import PokemonCardDetails from "../components/pokemon-card-details";
 import { Pokemon } from "../models/pokemon";
 import Loader from "../components/loader";
 import { getPokemon } from "../services/pokemon-service";
+import { useCompare } from "../helpers/compare-context";
+import { useNavigate } from "react-router-dom";
 
 function PokemonCompare() {
-  const [pokemon1, setPokemon1] = useState<Pokemon | undefined>(undefined);
-  const [pokemon2, setPokemon2] = useState<Pokemon | undefined>(undefined);
-  
-  useEffect(() => {
-    getPokemon(1).then((pokemon) => setPokemon1(pokemon));
-    getPokemon(2).then((pokemon) => setPokemon2(pokemon));
-  }, []);
+  const { selectedPokemonIds } = useCompare();
+  const navigate = useNavigate();
 
-  if (!pokemon1 || !pokemon2) {
+  const [pokemons, setPokemons] = useState<(Pokemon | undefined)[]>([]);
+
+  useEffect(() => {
+    if (selectedPokemonIds.length === 2) {
+      Promise.all(selectedPokemonIds.map(id => getPokemon(id))).then((pokemons) => {
+        setPokemons(pokemons);
+      });
+    }
+  }, [selectedPokemonIds]);
+
+  if (selectedPokemonIds.length !== 2) {
+    navigate("/pokemons");
+    return null;
+  }
+
+  if (!pokemons.length) {
     return <Loader />;
+  }
+
+  if (pokemons[0] === undefined || pokemons[1] === undefined) {
+    return (
+      <div className="container">
+        <h1 className="center">Pokémon not found</h1>
+      </div>
+    );
   }
 
   return (
     <div className="row">
       <div className="col s6">
-        <PokemonCardDetails pokemon={pokemon1} />
+        <PokemonCardDetails pokemon={pokemons[0]} />
       </div>
       <div className="col s6">
-        <PokemonCardDetails pokemon={pokemon2} />
+        <PokemonCardDetails pokemon={pokemons[1]} />
       </div>
     </div>
   );
