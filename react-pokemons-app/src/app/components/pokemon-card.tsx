@@ -7,10 +7,11 @@ import { useCompare } from '../helpers/compare-context';
 type Props = {
   pokemon: Pokemon;
   borderColor?: string;
+  selected?: boolean;
+  onSelect?: (pokemon: Pokemon) => void;
 };
 
-function PokemonCard({ pokemon }: Props) {
-  const { selectedPokemonIds, togglePokemonId } = useCompare();
+function PokemonCard({ pokemon, onSelect, selected }: Props) {
   const navigate = useNavigate();
 
   function goToPokemon(id: number) {
@@ -38,7 +39,7 @@ function PokemonCard({ pokemon }: Props) {
               Details
             </button>
             <label>
-              <input type="checkbox" className="filled-in" checked={selectedPokemonIds.includes(pokemon.id!)} onChange={() => togglePokemonId(pokemon.id ?? 0)} />
+              <input type="checkbox" className="filled-in" checked={selected} onChange={() => onSelect?.(pokemon)} />
               <span>Compare</span>
             </label>
           </div>

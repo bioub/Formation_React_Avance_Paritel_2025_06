@@ -8,13 +8,14 @@ import { isAuthenticated } from '../services/authentication-service';
 import List from '../components/list';
 import { useCompare } from '../helpers/compare-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { filteredPokemonsSelector } from '../store/selectors';
+import { filteredPokemonsSelector, pokemonsSelectedIdsSelector } from '../store/selectors';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { fetchPokemons, fetchPokemonsSuccess } from '../store/slices';
+import { fetchPokemons, togglePokemonSelection } from '../store/slices';
 // import { utils, writeFile } from 'xlsx';
 
 function PokemonList() {
-  const { selectedPokemonIds } = useCompare();
+  const selectedPokemonIds = useAppSelector(pokemonsSelectedIdsSelector);
+  // const { selectedPokemonIds } = useCompare();
   // const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const pokemons = useAppSelector(filteredPokemonsSelector);
   const dispatch = useAppDispatch();
@@ -38,7 +39,7 @@ function PokemonList() {
           <List
             items={pokemons}
             renderItem={(pokemon) => (
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+              <PokemonCard key={pokemon.id} pokemon={pokemon} selected={selectedPokemonIds.includes(pokemon.id ?? 0)} onSelect={(pokemon) => dispatch(togglePokemonSelection(pokemon.id ?? 0))} />
             )}
           />
           {/* {pokemons.map((pokemon) => (

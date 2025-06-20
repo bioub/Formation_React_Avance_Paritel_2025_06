@@ -3,11 +3,13 @@ import PokemonCardDetails from "../components/pokemon-card-details";
 import { Pokemon } from "../models/pokemon";
 import Loader from "../components/loader";
 import { getPokemon } from "../services/pokemon-service";
-import { useCompare } from "../helpers/compare-context";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store/hooks";
+import { pokemonsSelectedIdsSelector } from "../store/selectors";
 
 function PokemonCompare() {
-  const { selectedPokemonIds } = useCompare();
+    const selectedPokemonIds = useAppSelector(pokemonsSelectedIdsSelector);
+  
   const navigate = useNavigate();
 
   const [pokemons, setPokemons] = useState<(Pokemon | undefined)[]>([]);

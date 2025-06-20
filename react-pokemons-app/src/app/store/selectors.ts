@@ -9,6 +9,10 @@ export function pokemonsLoadingSelector(state: RootState) {
   return state.pokemons.loading;
 }
 
+export function pokemonsSelectedIdsSelector(state: RootState) {
+  return state.pokemons.selectedPokemonIds;
+}
+
 export function pokemonsFilterSelector(state: RootState) {
   console.log('pokemonsFilterSelector called');
   return state.pokemons.filter;
