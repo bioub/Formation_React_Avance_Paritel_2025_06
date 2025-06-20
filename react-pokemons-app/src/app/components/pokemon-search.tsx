@@ -1,22 +1,14 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Pokemon } from '../models/pokemon';
-import { searchPokemon } from '../services/pokemon-service';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { pokemonsFilterSelector } from '../store/selectors';
+import { setFilter } from '../store/slices';
 
 function PokemonSearch() {
-  const [term, setTerm] = useState('');
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const term = useAppSelector(pokemonsFilterSelector);
+  const dispatch = useAppDispatch();
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const term = event.target.value;
-    setTerm(term);
-
-    if (term.length <= 1) {
-      setPokemons([]);
-      return;
-    }
-
-    searchPokemon(term).then((pokemons) => setPokemons(pokemons));
+    dispatch(setFilter(term));
   }
 
   return (
@@ -31,17 +23,6 @@ function PokemonSearch() {
                 value={term}
                 onChange={(e) => handleInputChange(e)}
               />
-            </div>
-            <div className="collection">
-              {pokemons.map((pokemon) => (
-                <Link
-                  key={pokemon.id}
-                  to={`/pokemons/${pokemon.id}`}
-                  className="collection-item"
-                >
-                  {pokemon.name}
-                </Link>
-              ))}
             </div>
           </div>
         </div>
