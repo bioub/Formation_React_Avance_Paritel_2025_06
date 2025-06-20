@@ -1,4 +1,4 @@
-import lib from './lib';
+import { short } from './lib';
 
 function Exercise6() {
   return (
@@ -39,7 +39,7 @@ function Exercise6() {
         Then use React.lazy and Suspense to load this component when we visit
         this page.
       </p>
-      <div>From lib.js : {lib.short()}</div>
+      <div>From lib.js : {short()}</div>
     </div>
   );
 }

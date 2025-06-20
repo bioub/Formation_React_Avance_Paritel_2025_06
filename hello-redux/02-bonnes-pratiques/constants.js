@@ -1,0 +1,4 @@
+export const DEPOSIT = 'DEPOSIT';
+export const WITHDRAW = 'WITHDRAW';
+export const FETCH_POKEMONS = 'FETCH_POKEMONS';
+export const FETCH_POKEMONS_SUCCESS = 'FETCH_POKEMONS_SUCCESS';

@@ -4,7 +4,10 @@ import Exercise2 from './Exercise2';
 import Exercise3 from './Exercise3';
 import Exercise4 from './Exercise4';
 import Exercise5 from './Exercise5';
-import Exercise6 from './Exercise6';
+import { lazy, Suspense } from 'react';
+// import Exercise6 from './Exercise6';
+
+const Exercise6 = lazy(() => import('./Exercise6'));
 
 function App() {
   return (
@@ -17,14 +20,16 @@ function App() {
         <Link to="exercise5">Exercise 5</Link>{' '}
         <Link to="exercise6">Exercise 6</Link>
       </nav>
-      <Routes>
-        <Route path="exercise1" element={<Exercise1 />} />
-        <Route path="exercise2" element={<Exercise2 />} />
-        <Route path="exercise3" element={<Exercise3 />} />
-        <Route path="exercise4" element={<Exercise4 />} />
-        <Route path="exercise5" element={<Exercise5 />} />
-        <Route path="exercise6" element={<Exercise6 />} />
-      </Routes>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Routes>
+          <Route path="exercise1" element={<Exercise1 />} />
+          <Route path="exercise2" element={<Exercise2 />} />
+          <Route path="exercise3" element={<Exercise3 />} />
+          <Route path="exercise4" element={<Exercise4 />} />
+          <Route path="exercise5" element={<Exercise5 />} />
+          <Route path="exercise6" element={<Exercise6 />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

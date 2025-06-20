@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 
 function Exercise4() {
   const [value, setValue] = useState('');
@@ -9,9 +9,33 @@ function Exercise4() {
     setTodos([{ text: value, id: Math.random() }, ...todos]);
   }
 
+  // Pour ne pas recréer la fonction handleDelete à chaque render
+  // Solution 1: useRef
+  // const handleDeleteRef = useRef();
+  // if (!handleDeleteRef.current) {
+  //   handleDeleteRef.current = function handleDelete(todo) {
+  //     setTodos(todos.filter((t) => t.id !== todo.id));
+  //   };
+  // }
+
+  // Solution 2: useMemo
+  // const handleDelete = useMemo(() => {
+  //   return function handleDelete(todo) {
+  //     setTodos(todos.filter((t) => t.id !== todo.id));
+  //   };
+  // }, [todos]);
+
+  // Solution 3 : useCallback
+  // const handleDelete = useCallback(function handleDelete(todo) {
+  //   setTodos((prevTodos) => prevTodos.filter((t) => t.id !== todo.id));
+  // }, []);
+
+  // Solution 4: ajouter un 2e paramètre à memo
   function handleDelete(todo) {
-    setTodos(todos.filter((t) => t.id !== todo.id));
+    setTodos((prevTodos) => prevTodos.filter((t) => t.id !== todo.id));
   }
+
+  // Solution 5 à venir: utiliser React compiler (en RC)
 
   console.log('render Exercise4');
   return (
@@ -53,8 +77,15 @@ function Exercise4() {
   );
 }
 
-function TodosList(props) {
+const TodosList = memo(function TodosList(props) {
   console.log('render TodosList');
+
+  // fake 1s delay to simulate a slow component
+  const begin = performance.now();
+  while (performance.now() - begin < 50) {
+    // do nothing, just wait
+  }
+
   return (
     <div className="TodosList">
       {props.todos.map((t) => (
@@ -65,6 +96,8 @@ function TodosList(props) {
       ))}
     </div>
   );
-}
+}, (prevProps, nextProps) => {
+  return prevProps.todos === nextProps.todos;
+});
 
 export default Exercise4;
